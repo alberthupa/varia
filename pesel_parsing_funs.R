@@ -4,8 +4,8 @@
 # Following rules on https://dzidziusiowo.pl/niemowlak/pielegnacja-i-rozwoj/99-numer-pesel
 
 
+# FIRST MAIN FUNCTION: GET DATE OF BIRTH
 get_date_of_birth_from_pesel <- function(pesel_to_parse) {
-  
   #' INNER FUNCTION TO EXTRACT DATA
   extract_date_from_pesel <- function(pesel_chr_to_parse) {
     #' filter out exclusions
@@ -49,8 +49,8 @@ get_date_of_birth_from_pesel <- function(pesel_to_parse) {
   
 }
 
+# FIRST MAIN FUNCTION: GET GENDER
 get_gender_from_pesel <- function(pesel_to_parse) {
-  
   #' ODD AND EVEN NUMBERS FOR GENDER
   gender_values_men <- c("1", "3", "5", "7", "9")
   gender_values_women <- c("0", "2", "4", "6", "8")
@@ -94,4 +94,6 @@ get_gender_from_pesel <- function(pesel_to_parse) {
   return(gender_from_pesel)
   
 }
+ 
+
 
