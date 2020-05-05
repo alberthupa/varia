@@ -4,7 +4,7 @@
 # Following rules on https://dzidziusiowo.pl/niemowlak/pielegnacja-i-rozwoj/99-numer-pesel
 
 
-# FIRST MAIN FUNCTION: GET DATE OF BIRTH
+# ANOTHER MAIN FUNCTION: GET DATE OF BIRTH
 get_date_of_birth_from_pesel <- function(pesel_to_parse) {
   #' INNER FUNCTION TO EXTRACT DATA
   extract_date_from_pesel <- function(pesel_chr_to_parse) {
