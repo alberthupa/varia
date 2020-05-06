@@ -1,4 +1,4 @@
-# Functions extracting year of birth and gender from PESEL number
+# Functions extracting date of birth and gender from PESEL number
 # Working on vectors
 # Pure base R
 # Following rules on https://dzidziusiowo.pl/niemowlak/pielegnacja-i-rozwoj/99-numer-pesel
@@ -9,7 +9,7 @@ get_date_of_birth_from_pesel <- function(pesel_to_parse) {
   
   #' inner function to extract data
   extract_date_from_pesel <- function(pesel_chr_to_parse) {
-    #' filter out exclusions
+    # filter out exclusions
     if (is.na(pesel_chr_to_parse) |
         is.null(pesel_chr_to_parse) |
         nchar(pesel_chr_to_parse) != 11 |
@@ -33,7 +33,7 @@ get_date_of_birth_from_pesel <- function(pesel_to_parse) {
     }
   }
   
-  #' applying function to vector
+  # applying function to vector
   date_from_pesel <- tryCatch({
     date_from_pesel <- sapply(pesel_to_parse, extract_date_from_pesel, simplify = TRUE)
     date_from_pesel[sapply(date_from_pesel, is.null)] <- NA
@@ -52,14 +52,14 @@ get_date_of_birth_from_pesel <- function(pesel_to_parse) {
 # ANOTHER MAIN FUNCTION: GET GENDER
 get_gender_from_pesel <- function(pesel_to_parse) {
   
-  #' odd and even numbers for gender
+  # odd and even numbers for gender
   gender_values_men <- c("1", "3", "5", "7", "9")
   gender_values_women <- c("0", "2", "4", "6", "8")
   
   
-  #' inner function to extract data
+  # inner function to extract data
   extract_gender_from_pesel <- function(pesel_chr_to_parse) {
-    #' filter out exclusions
+    # filter out exclusions
     if (is.na(pesel_chr_to_parse) |
         is.null(pesel_chr_to_parse) |
         nchar(pesel_chr_to_parse) != 11 |
@@ -79,7 +79,7 @@ get_gender_from_pesel <- function(pesel_to_parse) {
     }
   }
   
-  #' applying function to vector
+  # applying function to vector
   gender_from_pesel <- tryCatch({
     gender_from_pesel <- sapply(pesel_to_parse, extract_gender_from_pesel, simplify = TRUE)
     gender_from_pesel[sapply(gender_from_pesel, is.null)] <- NA
