@@ -1,4 +1,6 @@
-# Functions extracting date of birth and gender from PESEL number
+# Functions extracting date of birth and gender from PESEL number:
+# - get_date_of_birth_from_pesel
+# - get_gender_from_pesel
 # Working on vectors
 # Pure base R
 # Following rules on https://dzidziusiowo.pl/niemowlak/pielegnacja-i-rozwoj/99-numer-pesel
@@ -49,7 +51,7 @@ get_date_of_birth_from_pesel <- function(pesel_to_parse) {
   
 }
 
-# ANOTHER MAIN FUNCTION: GET GENDER
+# ANOTHER FUNCTION: GET GENDER
 get_gender_from_pesel <- function(pesel_to_parse) {
   
   # odd and even numbers for gender
