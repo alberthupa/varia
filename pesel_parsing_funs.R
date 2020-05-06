@@ -19,19 +19,21 @@ get_date_of_birth_from_pesel <- function(pesel_to_parse) {
         pesel_chr_to_parse == "00000000000") {
       return(NA)
     } else {
-      if (substr(pesel_chr_to_parse, 3, 3) == 0 | substr(pesel_chr_to_parse, 3, 3) == 1) {
+      if (substr(pesel_chr_to_parse, 3, 3) == "0" | substr(pesel_chr_to_parse, 3, 3) == "1") {
         month_from_pesel <- as.numeric(substr(pesel_chr_to_parse, 3, 4))
         year_from_pesel <- as.numeric(paste0("19", substr(pesel_chr_to_parse, 1, 2)))
         day_from_pesel <- as.numeric(substr(pesel_chr_to_parse, 5, 6))
         date_from_pesel <- paste0(year_from_pesel, "-", month_from_pesel, "-", day_from_pesel)
         return(date_from_pesel)
-      } else if (substr(pesel_chr_to_parse, 3, 3) == 2 | substr(pesel_chr_to_parse, 3, 3) == 3) {
+      } else if (substr(pesel_chr_to_parse, 3, 3) == "2" | substr(pesel_chr_to_parse, 3, 3) == "3") {
         month_from_pesel <- as.numeric(substr(pesel_chr_to_parse, 3, 4)) - 20
         year_from_pesel <- as.numeric(paste0("20", substr(pesel_chr_to_parse, 1, 2)))
         day_from_pesel <- as.numeric(substr(pesel_chr_to_parse, 5, 6))
         date_from_pesel <- paste0(year_from_pesel, "-", month_from_pesel, "-", day_from_pesel)
         return(date_from_pesel)
-      } 
+      } else {
+        return(NA)
+      }
     }
   }
   
