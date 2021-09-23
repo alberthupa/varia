@@ -37,7 +37,7 @@ for (i in 1:length(year_months_to_do)) {
     ym_to_do_act_tmp <- year_months_to_do[j]
     if (ym_to_do_act_tmp >= ym_to_do_acq) {
       data_in_temp_i <- data_in_temp %>% filter(year_month == ym_to_do_act_tmp)
-      kpi_uu <- length(unique(data_in_temp_i %>% pull(nrkarty)))
+      kpi_uu <- length(unique(data_in_temp_i %>% pull(customer_id)))
       kpi_trans <- length(unique(data_in_temp_i %>% pull(paragon)))
       kpi_netto <- data_in_temp_i %>% summarise(netto = sum(netto)) %>% pull(netto)
       kpi_margin <- data_in_temp_i %>% summarise(margin = sum(margin)) %>% pull(margin)
