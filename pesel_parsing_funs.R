@@ -4,7 +4,7 @@
 # Working on vectors
 # Pure base R
 # Following rules on https://dzidziusiowo.pl/niemowlak/pielegnacja-i-rozwoj/99-numer-pesel
-
+# ss
 
 #  FIRST FUNCTION: GET DATE OF BIRTH
 get_date_of_birth_from_pesel <- function(pesel_to_parse) {
