@@ -1,7 +1,7 @@
 # calculate LTV matrices from data_in file
 # colnames for data_in:
 # customer_id, paragon, netto, margin, year_month
-
+     
 library(writexl)
 library(tidyverse)
 library(lubridate)
