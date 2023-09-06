@@ -1,0 +1,94 @@
+from facebook_business.api import FacebookAdsApi
+from facebook_business.adobjects.adaccount import AdAccount
+from google.oauth2.service_account import Credentials
+
+import pandas as pd
+import pandas_gbq
+from datetime import date, datetime, timedelta
+
+
+PATH_TO_GCP_CREDENTIALS = "******.json"
+credentials = Credentials.from_service_account_file(PATH_TO_GCP_CREDENTIALS)
+gcp_project_id = '"******'
+gcp_dataset_id = '"******'
+gcp_table_id = '"******'
+gcp_table_full_id = f'{gcp_dataset_id}.{gcp_table_id}'
+
+class FBInsightsFetcher:
+  
+    TOKEN_ID = "*****"
+    FB_ADD_ACCOUNTS = [{'country': 'PL', 'account_id': '"*****'},
+                       {'country': 'RO', 'account_id': '"*****'},
+                       {'country': 'HU', 'account_id': '"*****'},
+                       {'country': 'SK', 'account_id': '"*****'},
+                       {'country': 'BG', 'account_id': '"*****'},
+                       {'country': 'CZ', 'account_id': '"*****'},
+                       {'country': 'HR', 'account_id': '"*****'},
+                       {'country': 'SI', 'account_id': '"*****'}]
+    
+    fields_to_get = ['date_start', 'campaign_name', 'actions', 'clicks', 'impressions', 'spend', 'ctr', 'cpm']
+    action_types_to_get = ['link_click', 'purchase', 'offsite_conversion.fb_pixel_purchase', 'app_custom_event.fb_mobile_purchase']
+
+    @classmethod
+    def get_data_from_api(cls, fb_add_account, date_to_do):
+        params_to_get = {'level': 'campaign', 'time_range': {'since': date_to_do.strftime("%Y-%m-%d"), 'until': date_to_do.strftime("%Y-%m-%d")}, 'time_increment': 1, 'action_attribution_windows': ['1d_click']}
+        FacebookAdsApi.init(access_token=cls.TOKEN_ID)
+        insights = AdAccount(f'act_{fb_add_account}').get_insights(fields=cls.fields_to_get, params=params_to_get)
+        return pd.DataFrame(insights)
+    
+    @classmethod
+    def parse_actions(cls, actions):
+        action_data = {}
+        for action in actions:
+            if action['action_type'] in cls.action_types_to_get:
+                action_type = action.get('action_type')
+                action_value = action.get('1d_click')
+                if action_type == 'offsite_conversion.fb_pixel_purchase': action_type = 'purchase_pixel'
+                elif action_type == 'app_custom_event.fb_mobile_purchase': action_type = 'purchase_app'
+                action_data[action_type] = action_value
+        return action_data
+
+    @classmethod
+    def parse_data_from_api(cls, data_to_mine, measure_date, country):
+        df_list = []
+        for _, row in data_to_mine.iterrows():
+            base_data = {'country': country, 'campaign_name': row['campaign_name'], 'date_start': row['date_start'], 'impressions': row['impressions'], 'spend': row['spend'], 'ctr': row['ctr'], 'cpm': row['cpm']}
+            action_data = cls.parse_actions(row['actions'])
+            row_data = {**base_data, **action_data}
+            df_list.append(pd.DataFrame([row_data]))
+
+        if df_list:
+            final_df = pd.concat(df_list).fillna(0)
+            
+            column_order = ['country', 'campaign_name', 'date_start', 'spend', 'impressions', 'cpm', 'ctr', 'link_click', 'purchase_app', 'purchase', 'purchase_pixel']
+            final_df = final_df.reindex(columns=column_order, fill_value=0)
+
+            type_map = {
+                'country': str,
+                'campaign_name': str,
+                'date_start': str,              
+                'spend': float,
+                'impressions': int,
+                'cpm': float,
+                'ctr': float,
+                'link_click': int,
+                'purchase_app': int,
+                'purchase': int,
+                'purchase_pixel': int,
+            }
+            for col, col_type in type_map.items():
+                final_df[col] = final_df[col].astype(col_type)
+
+            return final_df
+          
+        else:
+            empty_df = pd.DataFrame(columns=['country', 'campaign_name', 'date_start', 'spend', 'impressions', 'cpm', 'ctr', 'link_click', 'purchase_app', 'purchase', 'purchase_pixel'])
+            return empty_df
+
+fetcher = FBInsightsFetcher()
+
+for country_to_do in missing_observations_date_df['country'].tolist():
+  account_id_to_do = int([i['account_id'] for i in fetcher.FB_ADD_ACCOUNTS if i['country'] == country_to_do][0])
+
+  df_data_from_api = fetcher.get_data_from_api(account_id_to_do, date_to_check)
+  df_data_parsed = fetcher.parse_data_from_api(df_data_from_api, date_to_check, country_to_do)
