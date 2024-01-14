@@ -1,0 +1,179 @@
+---
+name: Albert
+surname: Hupa
+position: "Senior Data Scientist, AI Speed Labs in CCC"
+address: "Warsaw, Poland"
+email: "albert.hupa@gmail.com"
+phone: "48 696 435 672"
+linkedin: ahupa
+date: "`r format(Sys.time(), '%Y-%m')`"
+headcolor: 990000
+aboutme: "I am a data scientist passionate about modelling data using latest technologies and multicloud solutions.
+My focus is on hands on experience with variety of tools rather than management, although I have experience in team management in both startups and corporate companies. I am a total AI and E/ACC freak."
+docname: CV
+output: vitae::awesomecv
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(vitae)
+library(tibble)
+Sys.setlocale("LC_TIME", "en_US.UTF-8")
+# https://github.com/tallguyjenks/CV/blob/master/CV.Rmd
+
+```
+# About me
+
+
+- **Machine Learning Expertise:** Led projects in client affinity modeling, multi-attribution systems, real-time e-commerce price optimization, and A/B testing for e-commerce, integrating with CRM and ad servers.
+
+- **Business Analytics Skills:** Proficient in calculating and explaining corporate KPIs to C-level executives, providing daily advisory, and aiding in data-driven corporate decision-making.
+
+- **Multicloud Experience:** Skilled in handling data from AWS, GCP, Databricks, and creating reports using dashboards and insights.
+
+- **AI Enthusiast:** Integrated AI tools like chatbots, data explorers, and translators in my current role. Familiar with OpenAI, Azure AI Studio, and other AI technologies. Developed a user-friendly thought management tool as a side project..
+
+# Employment
+
+```{r}
+tribble(
+    ~title, ~unit, ~startMonth, ~startYear, ~endMonth, ~endYear, ~where, ~detail,
+    
+    "Senior Data Scientist", "Warsaw Data Hub & AI Speed Labs", "1", "2022", NA, "now", "CCC", "TECHNOLOGIES: Python (Pyspark, Streamlit), DataBricks (FeatureStore, multicloud integrations), GCP (BQ, AppEngine, Looker, Vertex AI), Azure (Hyperscale, Azure AI Studio), Appsflyer, Google Ads, Langchains",
+    "Senior Data Scientist", "Warsaw Data Hub & AI Speed Labs", "1", "2022", NA, "now", "CCC", "LLM chatbots for pdf and sql numerical data sets",
+    "Senior Data Scientist", "Warsaw Data Hub & AI Speed Labs", "1", "2022", NA, "now", "CCC", "CDP Analytics / cross platform client matching & profiling, modelling audiences lists for CRM/MA and Google Ads",
+    "Senior Data Scientist", "Warsaw Data Hub & AI Speed Labs", "1", "2022", NA, "now", "CCC", "Purchase prediction models for CRM/GA audiences in omnichannel",
+    "Senior Data Scientist", "Warsaw Data Hub & AI Speed Labs", "1", "2022", NA, "now", "CCC", "Multi cloud sourced reporting dashboards",
+    "Senior Data Scientist", "Warsaw Data Hub & AI Speed Labs", "1", "2022", NA, "now", "CCC", "GCP / Big Query GA administration",
+    
+    "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "TECHNOLOGIES: Python (Pandas, Numpy), R (Tidyverse), Python, MSSQL, advanced Excel",
+    "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "Advisory to the board, head of a team",  
+    "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "System for dynamic pricing for ecommerce in realtime (python app in ecommerce backend)",
+    "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "Sales predictions in biweekly promo cycles: predictions, enabling sales prediction tool for catmans in XLS, reporting to the board",
+    
+    "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "Modelling promotions for marketing department (weekly estimations)",
+    "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "Predictions of new shop revenue",  
+    "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "CRM analytics",
+    
+    "Head of Analytics", "Warsaw", "10", "2019", 3, "2020", "Fru.pl/Vola.Ro", "TECHNOLOGIES: R (DataTable), Qlik, Spark, PostgreSQL",
+    "Head of Analytics", "Warsaw", "10", "2019", 3, "2020", "Fru.pl/Vola.Ro", "Advisory to the Board, head of a team",  
+    "Head of Analytics", "Warsaw", "10", "2019", 3, "2020", "Fru.pl/Vola.Ro", "Maintenance of business ready KPIs in realtime and operational P&L",
+    "Head of Analytics", "Warsaw", "10", "2019", 3, "2020", "Fru.pl/Vola.Ro", "Fare predictions",
+    "Head of Analytics", "Warsaw", "10", "2019", 3, "2020", "Fru.pl/Vola.Ro", "Data delivery to MA processes",
+    "Head of Analytics", "Warsaw", "10", "2019", 3, "2020", "Fru.pl/Vola.Ro", "Maintenance and development of ETL processes and data lakes used by teams across all countries",  
+    "Head of Analytics", "Warsaw", "10", "2019", 3, "2020", "Fru.pl/Vola.Ro", "AB tests", 
+    
+    
+    "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "TECHNOLOGIES: R (tidyverse), MSSQL, GCP/BigQuery GA3 tables, Google Data Studio, GA API",
+    "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Advisory to the board, head of a team",  
+    "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Multi source analyses of website traffic, ERP, CRM and CMS data",
+    "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Modelling listing effectiveness - listing creation and evaluation",
+    "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Segmentations of customers and shops",
+    "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Sales predictions",  
+    "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Maintaining business KPI measurement and reporting system",
+    
+    
+    "Co-founder and president", "Warsaw", "1", "2010", 1, "2019", "IRCenter", "TECHNOLOGIES: R (Tidyverse), Python (Pandas, Numpy), MySQL, PostgreSQL, AWS (EC2, S3), SPSS",
+    "Co-founder and president", "Warsaw", "1", "2010", 1, "2019", "IRCenter", "Managing and mentoring the team",
+    "Co-founder and president", "Warsaw", "1", "2010", 1, "2019", "IRCenter", "Conducting key market research and analytics projects (covering Poland, along with CEE, Baltics, France and Germany for Unilever, SABMiller, Royal Canin, Value Media, mBank, BGŻ BNP Paribas etc.)",  
+    "Co-founder and president", "Warsaw", "1", "2010", 1, "2019", "IRCenter", "Sales & account of key clients (Sabmiller, Unilever, mBank, Platforma Obywatelska, TVP, USP Zdrowie, Havas, PHD Rocket, Value Media)",
+    "Co-founder and president", "Warsaw", "1", "2010", 1, "2019", "IRCenter", "Multisource analytical projects for Skoda, Audi, P4, Allegro, Idea Bank - user centric web behavior analyses across ad servers -> delivering ad and touchpoint flowpaths to purchase",
+    
+    "Lecturer", "Social Informatics", NA, "2010", NA, "2011", "The Polish-Japanese Institute of Information Technology", "TECHNOLOGIES: R, Python, Perl, Pajek",
+    "Lecturer", "Social Informatics", NA, "2010", NA, "2011", "The Polish-Japanese Institute of Information Technology", "COURSES: Social Network Analysis",
+        
+    "Assistant professor", "Warsaw", NA, "2009", NA, "2011", "Institute of Applied Social Sciences at The University of Warsaw", "TECHNOLOGIES: R, SPSS",
+    "Assistant professor", "Warsaw", NA, "2009", NA, "2011", "Institute of Applied Social Sciences at The University of Warsaw", "COURSES: Statistics I, II and others",
+        
+    "Assistant", "Warsaw", NA, "2005", NA, "2009", "Institute of Applied Social Sciences at The University of Warsaw", "TECHNOLOGIES: R, SPSS",
+    
+    "Junior researcher", "Warsaw", NA, "2005", NA, "2005", "Gemius", "TECHNOLOGIES: internal tools, SPSS"
+) %>%
+  detailed_entries(
+    with = title,
+    what = unit,
+    why = detail,
+    when = glue::glue("{startMonth} {startYear} - {endMonth} {endYear}", .na = ""),
+    where = where
+  )
+```
+
+
+
+
+
+
+
+
+
+
+# Skills
+
+```{r}
+
+tribble(
+    ~area, ~skills,
+    "Programming Languages", "Python (Pandas, Numpy, Scikit-learn, PySpark), R (TidyVerse, DataTable, TidyModels), Perl (text processing), Bash (basic Linux administration)",
+    "AI", "LLM chat bots in Streamlit (RAG assistants for textual data and numerical databases), OpenAI / Azure AI Studio API (prompts and functions), Mistral API, Langchains, LLamaIndex, Pytorch, Vertex AI",
+    "ML", "XGBoost/LGBM/Catboost, HP tuning on gfx cards, maintaining models in: VM, dockers, DataBricks, BigQuery ML engine",
+    "Cloud", "Google Cloud (BigQuery, AppEngine, Vertex AI, Logs, Security, Looker), Azure (Hyperscale, Azure AI Studio), Databricks (Pyspark, AutoML, FeatureStore), Git",
+    "Databases", "BigQuery, MySQL, PostgreSQL, MSSQL, Spark SQL on DabaBricks",
+    "Ecommerce stack", "Magento, Adafir, Appsflyer, Google Ads API / Integrations, Meta Marketing API, cross platform cookie and client matching on AWS and GCP",
+    "Graph / Social Network Analysis", "multimodal graphs, similarity graphs, P*, Pajek"
+) %>%
+  detailed_entries(
+    with = area,
+    what = skills
+  )
+
+```
+
+
+
+# Education
+
+```{r}
+
+tribble(
+  ~ Degree, ~ Year, ~ Institution, ~ Where, # ~ with,
+
+  "thesis on Political discourse on Polish WWW pages – bottom up modeling of political ideologies on the basis of web mining, social network analysis and text mining", "2005-2010", "Ph.D. in sociology", "The University of Warsaw, Institute of Applied Social Sciences",
+  "thesis on virtual ethnography in the cyberspace", "2000-2005", "MA in sociology", "The University of Warsaw, Institute of Applied Social Sciences"
+) %>% 
+  detailed_entries(Degree, Year, Institution, Where, #with
+                   )
+```
+
+# Additional courses & certifications
+
+```{r}
+
+tribble(
+  ~with, ~where,
+
+  "Advanced Social Network Analysis", "Essex Summer School in Social Science Data Analysis and Collection",
+  "Quantitative Methods in the Social Sciences, Advanced Social Network Analysis", "Ljubljana University", 
+  "Microsoft Certified: Azure Data Fundamentals", "Microsoft"
+) %>% 
+  detailed_entries(with, where)
+```
+
+
+# Bibliography
+
+```{r}
+tribble(~title, ~where, ~details, ~authors,
+        "Comment classification for Internet auction platforms", "Lecture Notes in Computer Science 5739, Springer", "2009, pp. 129-137","T. Kaszuba, A. Wierzbicki, A. Hupa",
+        "Interdisciplinary Matchmaking: Choosing Collaborators by Skill, Acquaintance and Trust", "A. Abraham, A. Hassanien, V. Snasel (eds.) Computational Social Network Analysis. Trends, tools, and research advances, Springer", " pp. 319-348","A. Hupa, K. Rządca, A. Wierzbicki and A. Datta", 
+        "Badania orientacji politycznych w Internecie", "Studia socjologiczne", "3/2007","A. Hupa"
+        ) %>% 
+    detailed_entries(
+    with = title,
+    what = glue::glue("{where} {details}"),
+    #why = ,
+    when = authors
+    #when = glue::glue("{startMonth} {startYear} - {endMonth} {endYear}", .na = ""),
+    #where = where
+  )
+
+```
