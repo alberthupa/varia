@@ -8,8 +8,8 @@ phone: "48 696 435 672"
 linkedin: ahupa
 date: "`r format(Sys.time(), '%Y-%m')`"
 headcolor: 990000
-aboutme: "I am a data scientist passionate about modelling data using latest technologies and multicloud solutions.
-My focus is on hands on experience with variety of tools rather than management, although I have experience in team management in both startups and corporate companies. I am a total AI and E/ACC freak."
+aboutme: "I am a data scientist passionate about modelling data using latest technologies and multicloud solutions, skilled in bulding production ready client and ads analytics models in omnichannel ecommerce.
+My focus is on hands on experience with variety of tools, although I have experience in team management in both startups and corporate companies. I am a total AI and E/ACC freak."
 docname: CV
 output: vitae::awesomecv
 ---
@@ -29,9 +29,9 @@ Sys.setlocale("LC_TIME", "en_US.UTF-8")
 
 - **Business Analytics Skills:** Proficient in calculating and explaining corporate KPIs to C-level executives, providing daily advisory, and aiding in data-driven corporate decision-making.
 
-- **Multicloud Experience:** Skilled in handling data from AWS, GCP, Databricks, and creating reports using dashboards and insights.
+- **Multicloud Experience:** Skilled in joining data from AWS, GCP, Databricks into common data streams, creating data models and reporting.
 
-- **AI Enthusiast:** Integrated AI tools like chatbots, data explorers, and translators in my current role. Familiar with OpenAI, Azure AI Studio, and other AI technologies. Developed a user-friendly thought management tool as a side project..
+- **AI Enthusiast:** Integrated AI tools like chatbots, data explorers, and translators in my current role. Familiar with OpenAI, Azure AI Studio, and other AI technologies. Developed a user-friendly thought management tool as a side project.
 
 # Employment
 
@@ -52,7 +52,7 @@ tribble(
     "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "Sales predictions in biweekly promo cycles: predictions, enabling sales prediction tool for catmans in XLS, reporting to the board",
     
     "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "Modelling promotions for marketing department (weekly estimations)",
-    "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "Predictions of new shop revenue",  
+    "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "Predictions of new stores revenue",  
     "Head of Research and Analytics", "Warsaw", "3", "2020", 12, "2021", "Drogerie Natura", "CRM analytics",
     
     "Head of Analytics", "Warsaw", "10", "2019", 3, "2020", "Fru.pl/Vola.Ro", "TECHNOLOGIES: R (DataTable), Qlik, Spark, PostgreSQL",
@@ -68,7 +68,7 @@ tribble(
     "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Advisory to the board, head of a team",  
     "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Multi source analyses of website traffic, ERP, CRM and CMS data",
     "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Modelling listing effectiveness - listing creation and evaluation",
-    "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Segmentations of customers and shops",
+    "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Segmentations of customers and stores",
     "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Sales predictions",  
     "Head of Analytics", "Zielona Góra", "1", "2019", 10, "2019", "eobuwie.pl", "Maintaining business KPI measurement and reporting system",
     
@@ -84,8 +84,6 @@ tribble(
         
     "Assistant professor", "Warsaw", NA, "2009", NA, "2011", "Institute of Applied Social Sciences at The University of Warsaw", "TECHNOLOGIES: R, SPSS",
     "Assistant professor", "Warsaw", NA, "2009", NA, "2011", "Institute of Applied Social Sciences at The University of Warsaw", "COURSES: Statistics I, II and others",
-        
-    "Assistant", "Warsaw", NA, "2005", NA, "2009", "Institute of Applied Social Sciences at The University of Warsaw", "TECHNOLOGIES: R, SPSS",
     
     "Junior researcher", "Warsaw", NA, "2005", NA, "2005", "Gemius", "TECHNOLOGIES: internal tools, SPSS"
 ) %>%
@@ -129,6 +127,7 @@ tribble(
 ```
 
 
+\newpage
 
 # Education
 
@@ -150,30 +149,11 @@ tribble(
 
 tribble(
   ~with, ~where,
-
+  "Microsoft Certified: Azure Data Fundamentals", "Microsoft",
   "Advanced Social Network Analysis", "Essex Summer School in Social Science Data Analysis and Collection",
-  "Quantitative Methods in the Social Sciences, Advanced Social Network Analysis", "Ljubljana University", 
-  "Microsoft Certified: Azure Data Fundamentals", "Microsoft"
+  "Quantitative Methods in the Social Sciences, Advanced Social Network Analysis", "Ljubljana University"  
 ) %>% 
   detailed_entries(with, where)
 ```
 
 
-# Bibliography
-
-```{r}
-tribble(~title, ~where, ~details, ~authors,
-        "Comment classification for Internet auction platforms", "Lecture Notes in Computer Science 5739, Springer", "2009, pp. 129-137","T. Kaszuba, A. Wierzbicki, A. Hupa",
-        "Interdisciplinary Matchmaking: Choosing Collaborators by Skill, Acquaintance and Trust", "A. Abraham, A. Hassanien, V. Snasel (eds.) Computational Social Network Analysis. Trends, tools, and research advances, Springer", " pp. 319-348","A. Hupa, K. Rządca, A. Wierzbicki and A. Datta", 
-        "Badania orientacji politycznych w Internecie", "Studia socjologiczne", "3/2007","A. Hupa"
-        ) %>% 
-    detailed_entries(
-    with = title,
-    what = glue::glue("{where} {details}"),
-    #why = ,
-    when = authors
-    #when = glue::glue("{startMonth} {startYear} - {endMonth} {endYear}", .na = ""),
-    #where = where
-  )
-
-```
