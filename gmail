@@ -1,0 +1,110 @@
+
+"""
+!pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+!pip install html2text
+"""
+
+import os.path
+
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
+import dateutil.parser
+import base64
+from email import message_from_bytes
+import html2text
+
+# If modifying these scopes, delete the file token.json.
+SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
+
+
+creds = None
+if os.path.exists("token.json"):
+    creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+if not creds or not creds.valid:
+    if creds and creds.expired and creds.refresh_token:
+        creds.refresh(Request())
+    else:
+        flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
+    creds = flow.run_local_server(port=0)
+    with open("token.json", "w") as token:
+        token.write(creds.to_json())
+
+
+try:
+    # Call the Gmail API
+    service = build("gmail", "v1", credentials=creds)
+except HttpError as error:
+    # TODO(developer) - Handle errors from gmail API.
+    print(f"An error occurred: {error}")
+
+
+
+
+def list_messages(service, user_id, query=''):
+    try:
+        response = service.users().messages().list(userId=user_id, q=query).execute()
+        messages = response.get('messages', [])
+        while 'nextPageToken' in response:
+            page_token = response['nextPageToken']
+            response = service.users().messages().list(userId=user_id, q=query, pageToken=page_token).execute()
+            messages.extend(response.get('messages', []))
+        return messages
+    except HttpError as error:
+        print(f'An error occurred: {error}')
+        return None
+
+def get_message(service, user_id, msg_id):
+    try:
+        message = service.users().messages().get(userId=user_id, id=msg_id).execute()
+        return message
+    except HttpError as error:
+        print(f'An error occurred: {error}')
+        return None
+
+def get_message_decoded(service, user_id, msg_id):
+    try:
+        message = service.users().messages().get(userId=user_id, id=msg_id, format='raw').execute()
+        msg_raw = base64.urlsafe_b64decode(message['raw'])
+        mime_msg = message_from_bytes(msg_raw)
+        
+        # Extract HTML content
+        if mime_msg.is_multipart():
+            for part in mime_msg.walk():
+                if part.get_content_type() == 'text/html':
+                    return part.get_payload(decode=True).decode()
+        else:
+            if mime_msg.get_content_type() == 'text/html':
+                return mime_msg.get_payload(decode=True).decode()
+        return ""  # Return empty string if no HTML content found
+    except HttpError as error:
+        print(f'An error occurred: {error}')
+        return None
+
+
+def html_to_markdown(html_content):
+    h = html2text.HTML2Text()
+    h.ignore_links = False
+    markdown_content = h.handle(html_content)
+    return markdown_content
+
+# Set parameters
+user_id = 'me'
+sender_email = 'bensbites@mail.bensbites.co'
+sender_email = 'ainews@buttondown.email'
+start_date = '2024-05-14'  # Format YYYY-MM-DD
+query = f'from:{sender_email} after:{start_date}'
+
+# List all messages from the sender since the given date
+messages = list_messages(service, user_id, query)
+
+# Retrieve each message
+if messages:
+    for message in messages:
+        #email_data = get_message(service, user_id, message['id'])
+        email_data = get_message_decoded(service, user_id, message['id'])
+        email_data = html_to_markdown(email_data)
+        print(email_data)  # or process/store the email as needed
