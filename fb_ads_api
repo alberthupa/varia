@@ -87,7 +87,7 @@ class FBInsightsFetcher:
 
 fetcher = FBInsightsFetcher()
 
-for country_to_do in missing_observations_date_df['country'].tolist():
+for country_to_do in countries:
   account_id_to_do = int([i['account_id'] for i in fetcher.FB_ADD_ACCOUNTS if i['country'] == country_to_do][0])
 
   df_data_from_api = fetcher.get_data_from_api(account_id_to_do, date_to_check)
