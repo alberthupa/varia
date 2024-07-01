@@ -12,6 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+'''
+requirements.txt:
+streamlit
+google-cloud-aiplatform
+wcag-contrast-ratio
+altair<5
+streamlit-camera-input-live
+streamlit_pdf_viewer
+xhtml2pdf
+watchdog
+'''
+
+
 import streamlit as st
 
 #### GenAI section ########
