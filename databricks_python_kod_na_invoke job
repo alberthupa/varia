@@ -1,0 +1,62 @@
+import requests
+import json
+
+# Assign your Databricks host and access token
+server_hostname = 'adb-1616182541098861.1.azuredatabricks.net'  # Replace with your Databricks host
+access_token = 'newly_generated_access_token'  # Replace with your Databricks personal access token
+
+# Ensure the token is securely handled
+
+# Set your job ID here (you can find this in the Databricks Jobs UI)
+job_id = "215788788279447"
+
+# Databricks API endpoint to trigger the job
+url = f"https://{server_hostname}/api/2.1/jobs/run-now"
+
+# HTTP headers, including the authorization token
+headers = {
+    "Authorization": f"Bearer {access_token}",
+    "Content-Type": "application/json"
+}
+
+# Parameters to pass to the job (if the job accepts parameters)
+payload = {
+    "job_id": job_id,
+    "notebook_params": {  # Replace this with your job's specific parameters
+        "db_prefix": "my_database",
+        "table_with_source_of_words": "source_table",
+        "table_with_words_to_check": "target_table",
+        "select_category": "all"
+    }
+}
+
+# Send the POST request to trigger the job
+response = requests.post(url, headers=headers, data=json.dumps(payload))
+
+# Handle the response from the Databricks API
+if response.status_code == 200:
+    print("Job triggered successfully!")
+    run_id = response.json()["run_id"]  # Capture the run ID for monitoring
+    print(f"Run ID: {run_id}")
+else:
+    print(f"Failed to trigger job. Status Code: {response.status_code}")
+    print(f"Response: {response.text}")
+    run_id = None  # Ensure run_id is defined even if the request fails
+
+# Optional: Monitor the job status using the run ID
+if run_id:
+    status_url = f"https://{server_hostname}/api/2.1/jobs/runs/get"
+    status_payload = {
+        "run_id": run_id
+    }
+
+    status_response = requests.get(status_url, headers=headers, params=status_payload)
+
+    # Handle the response for the job status
+    if status_response.status_code == 200:
+        run_status = status_response.json()["state"]["life_cycle_state"]
+        print(f"Job Status: {run_status}")
+    else:
+        print("Failed to retrieve job status.")
+        print(f"Status Code: {status_response.status_code}")
+        print(f"Response: {status_response.text}")
