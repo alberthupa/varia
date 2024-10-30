@@ -1,0 +1,144 @@
+# Databricks notebook source
+# https://mlflow.org/docs/latest/llms/custom-pyfunc-for-llms/notebooks/custom-pyfunc-advanced-llm.html
+# https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html
+# https://mlflow.org/docs/latest/models.html
+
+# COMMAND ----------
+
+# MAGIC %pip install -U -qqqq databricks-agents mlflow mlflow-skinny databricks-vectorsearch langchain==0.2.11 langchain_core==0.2.23 langchain_community==0.2.10 
+
+# COMMAND ----------
+
+dbutils.library.restartPython()
+
+# COMMAND ----------
+
+import mlflow
+import mlflow.pyfunc
+from mlflow.models import set_model
+from mlflow.models import infer_signature
+from langchain_community.chat_models import ChatDatabricks
+from databricks.vector_search.client import VectorSearchClient
+from langchain_community.vectorstores import DatabricksVectorSearch
+from databricks import agents
+
+# COMMAND ----------
+
+llm = ChatDatabricks(endpoint="databricks-meta-llama-3-1-70b-instruct")
+
+
+# COMMAND ----------
+
+############
+# Connect to the Vector Search Index
+# results = retriever.similarity_search(query="Zscaler", k=5)
+
+############
+vs_client = VectorSearchClient(disable_notice=True)
+vs_index = vs_client.get_index(
+    endpoint_name="alberts_vector_search_endpoint",
+    index_name="alberts_bot_catalog.bot_schema.alberts_vsi"
+)
+
+retriever = DatabricksVectorSearch(
+    vs_index,
+    text_column="page_content",
+    columns=[
+        "my_index",
+        "page_content",
+        "source",
+    ],
+)
+
+mlflow.models.set_retriever_schema(
+    primary_key="my_index",
+    text_column="page_content",
+    doc_uri="source",  # Review App uses `doc_uri` to display chunks from the same document in a single view
+)
+
+
+# COMMAND ----------
+
+class PyFuncBot3(mlflow.pyfunc.PythonModel):
+
+    def __init__(self, model_path):
+        self.llm = ChatDatabricks(endpoint=model_path)
+        #self.messages = [("system", "You are a chatbot that can answer questions about Databricks."),]
+
+    def predict(self, context, model_input):
+
+        messages = model_input
+
+        last_message = messages[-1]['content']
+
+        vector_search_results = retriever.similarity_search(query=last_message, k=5)
+        context = ','.join([i.page_content for i in vector_search_results])
+
+        messages[-1]['content'] = f'''
+            user_asked_you_this_question: '{last_message}'.
+            Your task is to find if there is answer in the following docs: {context}
+        '''
+
+        ai_response = self.llm.invoke(messages)
+        #self.messages.append(("assistant", ai_response.content))
+
+        return ai_response
+    
+model_path = 'databricks-meta-llama-3-1-70b-instruct'    
+
+
+#messages = [
+#    {"role": "user", "content": "What is z sacler"},
+#]
+
+#model = PyFuncBot(model_path)
+
+#model.predict(None, messages)
+
+
+# COMMAND ----------
+
+set_model(PyFuncBot3(model_path=model_path))
+
+# COMMAND ----------
+
+input_example  = {
+    "messages": [
+        {"role": "user", "content": "What is z sacler?"},
+    ]
+}
+
+    
+signature = infer_signature(input_example, "")
+
+# COMMAND ----------
+
+with mlflow.start_run():
+    model_info = mlflow.pyfunc.log_model(
+        "agent_model_pyfunc3", 
+        python_model=PyFuncBot3(model_path),
+        signature=signature
+    )
+    run_id = mlflow.active_run().info.run_id
+
+# COMMAND ----------
+
+model_info.model_uri
+
+# COMMAND ----------
+
+# TODO: define the catalog, schema, and model name for your UC model
+catalog = "pyfunc_catalog"
+schema = "pyfuncs_schema"
+model_name = "agent_model_pyfunc3"
+UC_MODEL_NAME = f"{catalog}.{schema}.{model_name}"
+
+# register the model to UC
+uc_registered_model_info = mlflow.register_model(model_uri=model_info.model_uri, name=UC_MODEL_NAME)
+
+# COMMAND ----------
+
+
+
+# Deploy the model to the review app and a model serving endpoint
+agents.deploy(UC_MODEL_NAME, uc_registered_model_info.version)
